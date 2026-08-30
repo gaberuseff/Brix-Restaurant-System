@@ -17,9 +17,11 @@ import useCreateCategory from "./useCreateCategory";
 import useUpdateCategory from "./useUpdateCategory";
 
 const defaultValues = {
-  name: "",
+  name_en: "",
+  name_ar: "",
   slug: "",
-  description: "",
+  description_en: "",
+  description_ar: "",
   is_active: true,
 };
 
@@ -34,14 +36,21 @@ function CategoryDrawer({categoryToEdit = {}}) {
   const isWorking = isCreating || isUpdating;
 
   const editValues = {
-    name: categoryToEdit?.name || "",
+    name_en: categoryToEdit?.name_en || "",
+    name_ar: categoryToEdit?.name_ar || "",
     slug: categoryToEdit?.slug || "",
-    description: categoryToEdit?.description || "",
+    description_en: categoryToEdit?.description_en || "",
+    description_ar: categoryToEdit?.description_ar || "",
     is_active:
       categoryToEdit?.is_active !== undefined ? categoryToEdit.is_active : true,
   };
 
-  const {handleSubmit, reset, control} = useForm({
+  const {
+    handleSubmit,
+    reset,
+    control,
+    formState: {errors},
+  } = useForm({
     defaultValues: isEditSession ? editValues : defaultValues,
   });
 
@@ -59,9 +68,18 @@ function CategoryDrawer({categoryToEdit = {}}) {
   };
 
   const onSubmit = (data) => {
+    const payload = {
+      name_en: data.name_en?.trim(),
+      name_ar: data.name_ar?.trim(),
+      slug: data.slug?.trim(),
+      description_en: data.description_en?.trim() || "",
+      description_ar: data.description_ar?.trim() || "",
+      is_active: Boolean(data.is_active),
+    };
+
     if (isEditSession) {
       updateCategory(
-        {id: editId, ...data},
+        {id: editId, ...payload},
         {
           onSuccess: () => {
             handleOpenChange(false);
@@ -69,7 +87,7 @@ function CategoryDrawer({categoryToEdit = {}}) {
         },
       );
     } else {
-      createCategory(data, {
+      createCategory(payload, {
         onSuccess: () => {
           reset(defaultValues);
           handleOpenChange(false);
@@ -103,50 +121,83 @@ function CategoryDrawer({categoryToEdit = {}}) {
 
       <Drawer.Backdrop variant="blur">
         <Drawer.Content placement="right">
-          <Drawer.Dialog>
+          <Drawer.Dialog className="w-full max-w-lg">
             <Drawer.Header>
               <Drawer.Heading>
                 {isEditSession ? "Edit Category" : "Add Category"}
               </Drawer.Heading>
             </Drawer.Header>
 
-            <Drawer.Body>
+            <Drawer.Body className="overflow-y-auto">
               <form
                 id={formId}
                 onSubmit={handleSubmit(onSubmit)}
                 className="space-y-4">
-                {/* 1. Category Name */}
-                <Controller
-                  name="name"
-                  control={control}
-                  rules={{required: true}}
-                  render={({field}) => (
-                    <TextField
-                      className="w-full space-y-2"
-                      name="name"
-                      isRequired>
-                      <Label>Category Name</Label>
-                      <Input
-                        placeholder="e.g. Burgers & Sandwiches"
-                        variant="secondary"
-                        autoComplete="off"
-                        value={field.value || ""}
-                        onChange={field.onChange}
-                      />
-                    </TextField>
-                  )}
-                />
+                {/* 1. Category Names (EN & AR) */}
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <Controller
+                    name="name_en"
+                    control={control}
+                    rules={{required: "English name is required"}}
+                    render={({field, fieldState: {error}}) => (
+                      <TextField
+                        className="w-full space-y-2"
+                        name="name_en"
+                        isRequired
+                        isInvalid={Boolean(error)}>
+                        <Label>Name (EN)</Label>
+                        <Input
+                          placeholder="e.g. Burgers & Sandwiches"
+                          variant="secondary"
+                          autoComplete="off"
+                          value={field.value || ""}
+                          onChange={field.onChange}
+                        />
+                        {error && (
+                          <p className="text-xs text-danger">{error.message}</p>
+                        )}
+                      </TextField>
+                    )}
+                  />
+
+                  <Controller
+                    name="name_ar"
+                    control={control}
+                    rules={{required: "Arabic name is required"}}
+                    render={({field, fieldState: {error}}) => (
+                      <TextField
+                        className="w-full space-y-2"
+                        name="name_ar"
+                        isRequired
+                        isInvalid={Boolean(error)}>
+                        <Label>الاسم (AR)</Label>
+                        <Input
+                          placeholder="مثال: البرجر والساندوتشات"
+                          variant="secondary"
+                          autoComplete="off"
+                          dir="rtl"
+                          value={field.value || ""}
+                          onChange={field.onChange}
+                        />
+                        {error && (
+                          <p className="text-xs text-danger">{error.message}</p>
+                        )}
+                      </TextField>
+                    )}
+                  />
+                </div>
 
                 {/* 2. Category Slug */}
                 <Controller
                   name="slug"
                   control={control}
-                  rules={{required: true}}
-                  render={({field}) => (
+                  rules={{required: "Slug is required"}}
+                  render={({field, fieldState: {error}}) => (
                     <TextField
                       className="w-full space-y-2"
                       name="slug"
-                      isRequired>
+                      isRequired
+                      isInvalid={Boolean(error)}>
                       <Label>Slug</Label>
                       <Input
                         placeholder="e.g. burgers-sandwiches"
@@ -155,25 +206,46 @@ function CategoryDrawer({categoryToEdit = {}}) {
                         value={field.value || ""}
                         onChange={field.onChange}
                       />
+                      {error && (
+                        <p className="text-xs text-danger">{error.message}</p>
+                      )}
                     </TextField>
                   )}
                 />
 
-                {/* 3. Description */}
+                {/* 3. Descriptions (EN & AR) */}
                 <Controller
-                  name="description"
+                  name="description_en"
                   control={control}
-                  rules={{required: true}}
                   render={({field}) => (
                     <TextField
                       className="w-full space-y-2"
-                      name="description"
-                      isRequired>
-                      <Label>Description</Label>
+                      name="description_en">
+                      <Label>Description (EN)</Label>
                       <TextArea
-                        placeholder="Enter a brief category description..."
+                        placeholder="Enter English description..."
                         variant="secondary"
-                        rows={4}
+                        rows={3}
+                        value={field.value || ""}
+                        onChange={field.onChange}
+                      />
+                    </TextField>
+                  )}
+                />
+
+                <Controller
+                  name="description_ar"
+                  control={control}
+                  render={({field}) => (
+                    <TextField
+                      className="w-full space-y-2"
+                      name="description_ar">
+                      <Label>الوصف (AR)</Label>
+                      <TextArea
+                        placeholder="أدخل الوصف بالعربي..."
+                        variant="secondary"
+                        rows={3}
+                        dir="rtl"
                         value={field.value || ""}
                         onChange={field.onChange}
                       />

@@ -231,8 +231,8 @@ function MenuDrawer({itemToEdit = {}}) {
                               <ListBox.Item
                                 key={category.id}
                                 id={String(category.id)}
-                                textValue={category.name}>
-                                {category.name}
+                                textValue={category.name_en}>
+                                {category.name_en}
                                 <ListBox.ItemIndicator />
                               </ListBox.Item>
                             ))}

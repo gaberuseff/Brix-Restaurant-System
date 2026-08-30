@@ -1,4 +1,4 @@
-import {Button, Card, Chip} from "@heroui/react";
+import {Button, Card, Chip, Separator} from "@heroui/react";
 import {useState} from "react";
 import ConfirmDeleteModel from "../../ui/ConfirmDeleteModel";
 import CategoryDrawer from "./CategoryDrawer";
@@ -8,7 +8,15 @@ function CategoryItem({category}) {
   const [open, setOpen] = useState(false);
   const {deleteCategory, isDeleting} = useDeleteCategory();
 
-  const {id, name, slug, description, is_active} = category;
+  const {
+    id,
+    name_en,
+    name_ar,
+    slug,
+    description_en,
+    description_ar,
+    is_active,
+  } = category;
 
   const handleDelete = () => {
     deleteCategory(id, {
@@ -23,13 +31,11 @@ function CategoryItem({category}) {
       <Card className="p-6">
         <div className="space-y-3">
           <div className="flex items-center justify-between gap-2">
-            <div className="min-w-0">
-              <p className="text-lg font-semibold truncate">{name}</p>
-              {slug && (
-                <p className="text-xs text-default-500 font-mono truncate">
-                  /{slug}
-                </p>
-              )}
+            <div className="min-w-0 space-y-1">
+              <p className="text-lg font-semibold truncate">{name_en}</p>
+              <p className="text-sm text-default-500 ">
+                {description_en || "No description provided."}
+              </p>
             </div>
             <Chip
               size="sm"
@@ -40,9 +46,14 @@ function CategoryItem({category}) {
             </Chip>
           </div>
 
-          <div>
+          <Separator />
+
+          <div className="space-y-1 text-right">
+            <p className="text-sm text-default-500 ">
+              {name_ar || "No name provided."}
+            </p>
             <p className="text-sm text-default-500 line-clamp-2">
-              {description || "No description provided."}
+              {description_ar || "No description provided."}
             </p>
           </div>
 

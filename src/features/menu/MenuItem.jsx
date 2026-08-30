@@ -23,7 +23,7 @@ function MenuItem({item}) {
     categories,
   } = item;
 
-  const categoryName = categories?.name;
+  const categoryName = categories?.name_en;
 
   const handleDelete = () => {
     deleteMenuItem(id, {

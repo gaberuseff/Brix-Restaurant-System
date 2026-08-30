@@ -4,6 +4,7 @@ import ErrorState from "../../ui/ErrorState";
 import MenuItem from "./MenuItem";
 import MenuSkeleton from "./MenuSkeleton";
 import useMenu from "./useMenu";
+import Pagination from "../../ui/Pagination";
 
 function MenuList() {
   const {menu, isMenuLoading, isMenuError} = useMenu();
@@ -25,10 +26,13 @@ function MenuList() {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {menu.map((item) => (
-        <MenuItem key={item.id} item={item} />
-      ))}
+    <div className="space-y-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {menu.map((item) => (
+          <MenuItem key={item.id} item={item} />
+        ))}
+      </div>
+      <Pagination count={menu?.length} />
     </div>
   );
 }

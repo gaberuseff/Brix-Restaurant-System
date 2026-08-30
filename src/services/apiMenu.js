@@ -31,7 +31,7 @@ export async function getMenuItems(categoryFilter, availabilityFilter) {
     .select(
       `
       *,
-      categories!inner(name, slug)
+      categories!inner(name_en, slug)
       `,
     )
     .eq("status", "active");

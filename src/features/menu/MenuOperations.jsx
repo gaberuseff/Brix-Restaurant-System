@@ -4,16 +4,16 @@ import useCategories from "../categories/useCategories";
 function MenuOperations() {
   const {categories = []} = useCategories();
 
-  const options = [
+  const categoryOptions = [
     {value: "all", label: "All Categories"},
     ...categories.map((category) => {
-      return {value: category.slug, label: category.name};
+      return {value: category.slug, label: category.name_en};
     }),
   ];
 
   return (
     <div className="flex items-center gap-4">
-      <Filter filterField="category" options={options} />
+      <Filter filterField="category" options={categoryOptions} />
       <Filter
         filterField="is_available"
         options={[

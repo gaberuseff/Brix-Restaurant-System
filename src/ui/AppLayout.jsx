@@ -10,7 +10,7 @@ function AppLayout() {
       </div>
 
       <div className="flex flex-col grow">
-        <div className="px-4 md:px-12 py-4 shrink-0 flex items-center justify-between border-b">
+        <div className="px-4 md:px-12 py-4 shrink-0 flex items-center justify-between">
           <AppHeader />
         </div>
 
