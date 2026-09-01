@@ -16,7 +16,7 @@ function useAddItemVariants() {
     },
 
     onError: (error) => {
-      toast.error(error.message);
+      toast.danger(error.message);
     },
   });
 

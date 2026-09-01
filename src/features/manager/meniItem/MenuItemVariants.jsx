@@ -1,4 +1,4 @@
-import {Button, Dropdown, Spinner, Table} from "@heroui/react";
+import {Dropdown, Table} from "@heroui/react";
 import {
   Delete,
   Edit02Icon,
@@ -87,14 +87,12 @@ function MenuItemVariants() {
                   <Table.Cell>{variant.sort_order}</Table.Cell>
                   <Table.Cell>
                     <Dropdown>
-                      <Dropdown.Trigger>
-                        <Button
-                          isIconOnly
-                          variant="secondary"
-                          size="sm"
-                          aria-label="Actions">
-                          <HugeiconsIcon icon={MoreVerticalCircle01Icon} />
-                        </Button>
+                      <Dropdown.Trigger
+                        isIconOnly
+                        variant="secondary"
+                        size="sm"
+                        aria-label="Actions">
+                        <HugeiconsIcon icon={MoreVerticalCircle01Icon} />
                       </Dropdown.Trigger>
                       <Dropdown.Popover>
                         <Dropdown.Menu>

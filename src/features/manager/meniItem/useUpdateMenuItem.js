@@ -8,7 +8,8 @@ function useUpdateMenuItem() {
     mutateAsync: mutateUpdateMenuItem,
     isPending: isUpdateMenuItemPending,
   } = useMutation({
-    mutationFn: ({menuItemId, updates}) => updateMenuItem(menuItemId, updates),
+    mutationFn: ({menuItemId, updates}) =>
+      updateMenuItemAPI(menuItemId, updates),
 
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ["menu"]});
@@ -16,7 +17,7 @@ function useUpdateMenuItem() {
     },
 
     onError: (err) => {
-      toast.error(err.message);
+      toast.danger(err?.message || "Failed to update menu item");
     },
   });
 

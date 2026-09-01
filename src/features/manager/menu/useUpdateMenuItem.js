@@ -1,5 +1,5 @@
-import {toast} from "@heroui/react";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {toast} from "@heroui/react";
 import {updateMenuItem as updateMenuItemApi} from "../../../services/apiMenu";
 
 function useUpdateMenuItem() {
