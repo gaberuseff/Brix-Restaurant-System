@@ -1,13 +1,6 @@
 @import "tailwindcss";
 @import "@heroui/styles";
 
-/*
- * HeroUI Theme Customization
- * Add this to your global.css after importing @heroui/styles
- * Only includes variables users need to customize
- * @see https://heroui.com/docs/react/getting-started/theming
- */
-
 :root,
 .light,
 .default,

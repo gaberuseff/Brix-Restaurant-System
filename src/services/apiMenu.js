@@ -1,3 +1,4 @@
+import {PAGE_SIZE} from "../utils/constants";
 import {compressImage} from "../utils/helpers";
 import supabase from "./supabase";
 
@@ -25,14 +26,19 @@ export async function uploadMenuImage(file) {
   return data.publicUrl;
 }
 
-export async function getMenuItems(categoryFilter, availabilityFilter) {
+export async function getMenuItems(categoryFilter, availabilityFilter, page) {
   let query = supabase
     .from("menu")
     .select(
       `
-      *,
+      name_en,
+      id,
+      price,
+      image_url,
+      is_available,
       categories!inner(name_en, slug)
       `,
+      {count: "exact"},
     )
     .eq("status", "active");
 
@@ -44,14 +50,20 @@ export async function getMenuItems(categoryFilter, availabilityFilter) {
     query = query.eq("is_available", availabilityFilter);
   }
 
-  const {data, error} = await query.order("id", {ascending: true});
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
+
+  const {data, count, error} = await query.order("id", {ascending: true});
 
   if (error) {
     console.error("Error fetching menu items:", error);
     throw error;
   }
 
-  return data;
+  return {data, count};
 }
 
 export async function createMenuItem(newItem) {

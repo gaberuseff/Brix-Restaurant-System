@@ -1,4 +1,4 @@
-import BranchesLayout from "../features/branches/BranchesLayout";
+import BranchesLayout from "../features/manager/branches/BranchesLayout";
 
 function Branches() {
   return <BranchesLayout />;

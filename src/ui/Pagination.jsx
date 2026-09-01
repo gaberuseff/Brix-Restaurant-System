@@ -21,6 +21,8 @@ function Pagination({count}) {
   const from = (currentPage - 1) * PAGE_SIZE + 1;
   const to = Math.min(currentPage * PAGE_SIZE, count);
 
+  if (totalPages <= 1) return null;
+
   return (
     <PaginationUI className="w-full">
       <PaginationUI.Summary>

@@ -11,6 +11,17 @@ export async function getCategories() {
   return data;
 }
 
+export async function getCategoriesShort() {
+  const {data, error} = await supabase.from("categories").select("id, name_en");
+
+  if (error) {
+    console.error("Error fetching categories:", error);
+    throw error;
+  }
+
+  return data;
+}
+
 export async function createCategory(newCategory) {
   const {data, error} = await supabase
     .from("categories")

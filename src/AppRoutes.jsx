@@ -2,6 +2,7 @@ import {lazy, Suspense} from "react";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import AppLayout from "./ui/AppLayout";
 import LoadingState from "./ui/LoadingState";
+import MenuItem from "./pages/MenuItem";
 
 const Branches = lazy(() => import("./pages/Branches"));
 const Categories = lazy(() => import("./pages/Categories"));
@@ -21,6 +22,7 @@ function AppRoutes() {
             <Route path="/" element={<h1>Home</h1>} />
             <Route path="/orders" element={<h1>Orders</h1>} />
             <Route path="/menu" element={<Menu />} />
+            <Route path="/menu/:id" element={<MenuItem />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/branches" element={<Branches />} />
             <Route path="/staff" element={<h1>Staff</h1>} />

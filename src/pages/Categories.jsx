@@ -1,4 +1,4 @@
-import CategoriesLayout from "../features/categories/CategoriesLayout";
+import CategoriesLayout from "../features/manager/categories/CategoriesLayout";
 
 function Categories() {
   return <CategoriesLayout />;
