@@ -1,12 +1,12 @@
 import Filter from "../../../ui/Filter";
-import useCategories from "../categories/useCategories";
+import useCategoriesShortData from "../categories/useCategoriesShortData";
 
 function MenuOperations() {
-  const {categories = []} = useCategories();
+  const {categoriesShort = []} = useCategoriesShortData();
 
   const categoryOptions = [
     {value: "all", label: "All Categories"},
-    ...categories.map((category) => {
+    ...categoriesShort.map((category) => {
       return {value: category.slug, label: category.name_en};
     }),
   ];

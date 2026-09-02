@@ -1,8 +1,10 @@
-import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {createAccount as createAccountApi} from "../../services/apiAuth";
 import {toast} from "@heroui/react";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {useNavigate} from "react-router-dom";
+import {createAccount as createAccountApi} from "../../services/apiAuth";
 
 function useCreateAccount() {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const {mutate: createAccount, isPending: isCreating} = useMutation({

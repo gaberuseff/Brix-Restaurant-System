@@ -3,6 +3,7 @@ import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {PATHS} from "./routes/paths";
 import PageLoader from "./ui/PageLoader";
 import ProtectedRoutes from "./ui/ProtectedRoutes";
+import BranchesList from "./features/manager/branches/BranchesList";
 
 // Lazy-loaded Layouts
 const ManagerLayout = lazy(() => import("./layouts/ManagerLayout"));
@@ -54,7 +55,7 @@ function AppRoutes() {
                 index
                 element={<Navigate to={PATHS.EMPLOYEE.POS} replace />}
               />
-              <Route path="pos" element={<h1>POS Terminal</h1>} />
+              <Route path="pos" element={<BranchesList />} />
               <Route path="orders" element={<h1>Employee Orders</h1>} />
             </Route>
           </Route>

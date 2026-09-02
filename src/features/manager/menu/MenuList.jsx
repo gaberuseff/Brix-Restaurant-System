@@ -1,10 +1,10 @@
-import {Menu01Icon} from "@hugeicons/core-free-icons";
+import { Menu01Icon } from "@hugeicons/core-free-icons";
 import EmpryState from "../../../ui/EmpryState";
 import ErrorState from "../../../ui/ErrorState";
+import Pagination from "../../../ui/Pagination";
 import MenuItem from "./MenuItem";
 import MenuSkeleton from "./MenuSkeleton";
 import useMenu from "./useMenu";
-import Pagination from "../../../ui/Pagination";
 
 function MenuList() {
   const {menu, count, isMenuLoading, isMenuError} = useMenu();

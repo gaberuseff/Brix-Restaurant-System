@@ -1,16 +1,16 @@
-import supabase from "./supabase";
+import supabase, {supabaseAdmin} from "./supabase";
 
 export async function createAccount(userData) {
-  const {name, email, password, role = "manager"} = userData;
+  const {name, email, phone, password, role = "manager"} = userData;
 
-  const {data, error} = await supabase.auth.signUp({
+  const {data, error} = await supabaseAdmin.auth.admin.createUser({
     email,
     password,
-    options: {
-      data: {
-        full_name: name,
-        role,
-      },
+
+    user_metadata: {
+      full_name: name,
+      phone,
+      role,
     },
   });
 

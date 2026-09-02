@@ -21,7 +21,7 @@ import {Controller, useForm} from "react-hook-form";
 import useCategories from "../categories/useCategories";
 import useCreateMenuItem from "./useCreateMenuItem";
 import useUpdateMenuItem from "./useUpdateMenuItem";
-import useCategoriesShortData from "./useCategoriesShortData";
+import useCategoriesShortData from "../categories/useCategoriesShortData";
 
 const defaultValues = {
   name_en: "",
