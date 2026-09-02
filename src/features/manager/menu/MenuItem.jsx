@@ -7,6 +7,7 @@ import {
 import {HugeiconsIcon} from "@hugeicons/react";
 import {useNavigate} from "react-router-dom";
 import {formatCurrency} from "../../../utils/helpers";
+import {PATHS} from "../../../routes/paths";
 
 function MenuItem({item}) {
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ function MenuItem({item}) {
               <HugeiconsIcon icon={Delete01Icon} />
             </Button>
             <Button
-              onPress={() => navigate(`/menu/${id}`)}
+              onPress={() => navigate(`${PATHS.MANAGER.MENU}/${id}`)}
               variant="secondary"
               color="primary"
               className="flex-1">

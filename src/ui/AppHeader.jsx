@@ -1,6 +1,4 @@
-import {Button} from "@heroui/react";
-import {Logout01Icon} from "@hugeicons/core-free-icons";
-import {HugeiconsIcon} from "@hugeicons/react";
+import LogoutBtn from "./LogoutBtn";
 import ModeToggle from "./ModeToggle";
 
 function AppHeader() {
@@ -11,13 +9,7 @@ function AppHeader() {
       <div className="flex items-center gap-4">
         <ModeToggle />
 
-        <Button
-          color="danger"
-          isIconOnly
-          aria-label="Logout"
-          variant="danger-soft">
-          <HugeiconsIcon icon={Logout01Icon} size={20} />
-        </Button>
+        <LogoutBtn />
       </div>
     </header>
   );

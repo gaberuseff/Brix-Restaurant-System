@@ -25,11 +25,17 @@ const defaultValues = {
   is_active: true,
 };
 
-function CategoryDrawer({categoryToEdit = {}}) {
+function CategoryDrawer({
+  categoryToEdit = {},
+  isOpen: externalIsOpen,
+  onOpenChange: externalOnOpenChange,
+}) {
   const isEditSession = Boolean(categoryToEdit?.id);
   const editId = categoryToEdit?.id;
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
+
   const {createCategory, isCreating} = useCreateCategory();
   const {updateCategory, isUpdating} = useUpdateCategory();
 
@@ -61,7 +67,11 @@ function CategoryDrawer({categoryToEdit = {}}) {
   }, [isOpen, isEditSession]);
 
   const handleOpenChange = (open) => {
-    setIsOpen(open);
+    if (externalOnOpenChange) {
+      externalOnOpenChange(open);
+    } else {
+      setInternalIsOpen(open);
+    }
     if (!open) {
       reset(isEditSession ? editValues : defaultValues);
     }
@@ -100,24 +110,25 @@ function CategoryDrawer({categoryToEdit = {}}) {
 
   return (
     <Drawer isOpen={isOpen} onOpenChange={handleOpenChange}>
-      {isEditSession ? (
-        <Button
-          variant="secondary"
-          className="w-full"
-          isDisabled={isWorking}
-          onClick={() => setIsOpen(true)}>
-          <HugeiconsIcon icon={Edit02Icon} size={16} />
-          Edit
-        </Button>
-      ) : (
-        <Button
-          variant="secondary"
-          isDisabled={isWorking}
-          onClick={() => setIsOpen(true)}>
-          <HugeiconsIcon icon={PlusIcon} size={16} />
-          Add Category
-        </Button>
-      )}
+      {externalIsOpen === undefined &&
+        (isEditSession ? (
+          <Button
+            variant="secondary"
+            className="w-full"
+            isDisabled={isWorking}
+            onClick={() => setInternalIsOpen(true)}>
+            <HugeiconsIcon icon={Edit02Icon} size={16} />
+            Edit
+          </Button>
+        ) : (
+          <Button
+            variant="secondary"
+            isDisabled={isWorking}
+            onClick={() => setInternalIsOpen(true)}>
+            <HugeiconsIcon icon={PlusIcon} size={16} />
+            Add Category
+          </Button>
+        ))}
 
       <Drawer.Backdrop variant="blur">
         <Drawer.Content placement="right">

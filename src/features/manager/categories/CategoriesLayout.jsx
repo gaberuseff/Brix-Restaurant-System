@@ -1,4 +1,4 @@
-import CategoriesList from "./CategoriesList";
+import CategoriesTable from "./CategoriesTable.jsx";
 import CategoryDrawer from "./CategoryDrawer";
 
 function CategoriesLayout() {
@@ -10,7 +10,7 @@ function CategoriesLayout() {
       </div>
 
       <div>
-        <CategoriesList />
+        <CategoriesTable />
       </div>
     </div>
   );

@@ -12,63 +12,80 @@ import {
 import ShoppingBag01Icon from "@hugeicons/core-free-icons/ShoppingBag01Icon";
 import {HugeiconsIcon} from "@hugeicons/react";
 import {Link, useLocation} from "react-router-dom";
+import useUser from "../features/auth/useUser";
+import {PATHS} from "../routes/paths";
 
 const navLinks = [
   {
-    path: "/",
+    path: PATHS.MANAGER.ROOT,
     label: "Dashboard",
     icon: Home01Icon,
+    roles: ["manager"],
   },
   {
-    path: "/orders",
+    path: PATHS.EMPLOYEE.POS,
+    label: "POS Terminal",
+    icon: Analytics02Icon,
+    roles: ["employee"],
+  },
+  {
+    path: PATHS.EMPLOYEE.ORDERS,
     label: "Orders",
     icon: ShoppingBag01Icon,
+    roles: ["employee"],
   },
   {
-    path: "/menu",
+    path: PATHS.MANAGER.MENU,
     label: "Menu",
     icon: MenuRestaurantIcon,
+    roles: ["manager"],
   },
   {
-    path: "/categories",
+    path: PATHS.MANAGER.CATEGORIES,
     label: "Categories",
     icon: Package01Icon,
+    roles: ["manager"],
   },
   {
-    path: "/branches",
+    path: PATHS.MANAGER.BRANCHES,
     label: "Branches",
     icon: Store02Icon,
+    roles: ["manager"],
   },
   {
-    path: "/staff",
+    path: PATHS.MANAGER.STAFF,
     label: "Staff",
     icon: WaitersIcon,
+    roles: ["manager"],
   },
   {
-    path: "/users",
+    path: PATHS.MANAGER.USERS,
     label: "Users",
     icon: UserGroupIcon,
+    roles: ["manager"],
   },
   {
-    path: "/reports",
-    label: "Reports",
-    icon: Analytics02Icon,
-  },
-  {
-    path: "/settings",
+    path: PATHS.MANAGER.SETTINGS,
     label: "Settings",
     icon: Settings02Icon,
+    roles: ["manager"],
   },
 ];
 
 function AppNav() {
   const location = useLocation();
+  const {role} = useUser();
+
   const isActive = (path) => location.pathname === path;
+
+  const filteredNavLinks = navLinks.filter(
+    (link) => !link.roles || (role && link.roles.includes(role)),
+  );
 
   return (
     <nav className="flex flex-col items-center">
       <ul className="flex flex-col items-center gap-3">
-        {navLinks.map((link) => {
+        {filteredNavLinks.map((link) => {
           const active = isActive(link.path);
 
           return (

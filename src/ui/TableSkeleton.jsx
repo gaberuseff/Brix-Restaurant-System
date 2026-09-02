@@ -10,7 +10,9 @@ function TableSkeleton({rowsCount = 5, colsCount = 6, cols = []}) {
           <Table.Header>
             {cols.length > 0
               ? cols.map((col) => (
-                  <Table.Column key={col.key || col.label} isRowHeader={col.isRowHeader}>
+                  <Table.Column
+                    key={col.key || col.label}
+                    isRowHeader={col.isRowHeader}>
                     {col.label}
                   </Table.Column>
                 ))
