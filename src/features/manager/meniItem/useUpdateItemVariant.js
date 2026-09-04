@@ -16,7 +16,7 @@ function useUpdateItemVariant() {
     },
 
     onError: (error) => {
-      toast.danger(error.message);
+      toast.warning(error.message);
     },
   });
 

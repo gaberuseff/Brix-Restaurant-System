@@ -3,7 +3,7 @@ import {getCategories} from "../../../services/apiCategories";
 
 function useCategories() {
   const {
-    data: categories,
+    data: categories = [],
     isPending: isLoading,
     error,
     refetch,

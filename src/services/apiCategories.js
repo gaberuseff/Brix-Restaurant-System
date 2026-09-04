@@ -11,17 +11,6 @@ export async function getCategories() {
   return data;
 }
 
-export async function getCategoriesShort() {
-  const {data, error} = await supabase.from("categories").select("id, name_en");
-
-  if (error) {
-    console.error("Error fetching categories:", error);
-    throw error;
-  }
-
-  return data;
-}
-
 export async function createCategory(newCategory) {
   const {data, error} = await supabase
     .from("categories")
@@ -57,6 +46,12 @@ export async function deleteCategory(id) {
     .delete()
     .eq("id", id)
     .select();
+
+  if (error?.code === "23503") {
+    throw new Error(
+      "This category has items, cannot delete it, please move items to another category or delete them first",
+    );
+  }
 
   if (error) {
     console.error("Error deleting category:", error);

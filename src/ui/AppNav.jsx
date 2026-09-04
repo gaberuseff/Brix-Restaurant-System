@@ -1,6 +1,8 @@
 import {Tooltip} from "@heroui/react";
 import {
   Analytics02Icon,
+  Delete01Icon,
+  HeartPlusIcon,
   Home01Icon,
   MenuRestaurantIcon,
   Package01Icon,
@@ -41,6 +43,12 @@ const navLinks = [
     roles: ["manager"],
   },
   {
+    path: PATHS.MANAGER.MODIFIERS,
+    label: "Modifiers",
+    icon: HeartPlusIcon,
+    roles: ["manager"],
+  },
+  {
     path: PATHS.MANAGER.CATEGORIES,
     label: "Categories",
     icon: Package01Icon,
@@ -70,6 +78,12 @@ const navLinks = [
     icon: Settings02Icon,
     roles: ["manager"],
   },
+  {
+    path: PATHS.MANAGER.TRASH,
+    label: "Deleted Items",
+    icon: Delete01Icon,
+    roles: ["manager"],
+  },
 ];
 
 function AppNav() {
@@ -83,7 +97,7 @@ function AppNav() {
   );
 
   return (
-    <nav className="flex flex-col items-center">
+    <nav className="flex flex-col items-center gap-4">
       <ul className="flex flex-col items-center gap-3">
         {filteredNavLinks.map((link) => {
           const active = isActive(link.path);

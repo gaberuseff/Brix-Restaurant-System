@@ -8,7 +8,7 @@ function ProtectedRoutes({allowedRole}) {
     useUser();
 
   if (isUserLoading) {
-    return <PageLoader message="Checking authentication..." />;
+    return <PageLoader />;
   }
 
   // 1. Not logged in -> Redirect to login page

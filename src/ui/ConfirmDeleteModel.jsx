@@ -44,7 +44,7 @@ function ConfirmDeleteModel({
                 onClick={() => {
                   handleDelete(id);
                 }}>
-                {isPending ? <Spinner size="sm" /> : "Confirm Delete"}
+                {isPending ? "Deleting..." : "Confirm Delete"}
               </Button>
             </Modal.Footer>
           </Modal.Dialog>

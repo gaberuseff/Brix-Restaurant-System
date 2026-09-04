@@ -32,8 +32,8 @@ export async function getMenuItems(categoryFilter, availabilityFilter, page) {
     .select(
       `
       name_en,
+      description_en,
       id,
-      price,
       image_url,
       is_available,
       categories!inner(name_en, slug)

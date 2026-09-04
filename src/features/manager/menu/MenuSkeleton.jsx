@@ -1,4 +1,4 @@
-import {Card, Skeleton} from "@heroui/react";
+import {Card, Separator, Skeleton} from "@heroui/react";
 
 function MenuSkeletonCard() {
   return (
@@ -6,31 +6,36 @@ function MenuSkeletonCard() {
       {/* 1. Image Skeleton */}
       <div className="relative aspect-4/3 w-full overflow-hidden">
         <Skeleton className="h-full w-full rounded-none" />
+        {/* Category Chip Badge Skeleton */}
+        <div className="absolute top-3 left-3">
+          <Skeleton className="h-6 w-20 rounded-full" />
+        </div>
       </div>
 
       {/* 2. Content Skeleton */}
-      <div className="p-4 flex flex-col gap-3 grow">
-        <div className="space-y-2">
-          {/* Title (EN & AR) */}
-          <Skeleton className="h-5 w-3/4 rounded-md" />
-          <Skeleton className="h-4 w-1/2 rounded-md" />
+      <div className="flex flex-col justify-between grow p-4 gap-3">
+        <div className="space-y-1.5">
+          {/* Title & Availability Badge */}
+          <div className="flex items-start justify-between gap-2">
+            <Skeleton className="h-6 w-2/3 rounded-md" />
+            <Skeleton className="h-6 w-20 shrink-0 rounded-full" />
+          </div>
 
           {/* Description */}
-          <Skeleton className="h-3.5 w-full rounded-md mt-1" />
-          <Skeleton className="h-3.5 w-4/5 rounded-md" />
+          <div className="space-y-1 pt-1">
+            <Skeleton className="h-3.5 w-full rounded-md" />
+            <Skeleton className="h-3.5 w-4/5 rounded-md" />
+          </div>
         </div>
 
-        {/* 3. Price & Action Buttons */}
-        <div className="mt-auto pt-3 border-t border-separator/60 space-y-3">
-          <div className="flex items-center justify-between">
-            <Skeleton className="h-4 w-12 rounded-md" />
-            <Skeleton className="h-6 w-20 rounded-md" />
-          </div>
+        <Separator orientation="horizontal" className="my-2" />
 
-          <div className="flex gap-2">
-            <Skeleton className="h-9 w-full rounded-lg" />
-            <Skeleton className="h-9 w-full rounded-lg" />
-          </div>
+        {/* Action Buttons */}
+        <div className="flex gap-2 pt-2">
+          {/* Delete Icon Button */}
+          <Skeleton className="h-10 w-10 shrink-0 rounded-medium" />
+          {/* View Item Button */}
+          <Skeleton className="h-10 flex-1 rounded-medium" />
         </div>
       </div>
     </Card>

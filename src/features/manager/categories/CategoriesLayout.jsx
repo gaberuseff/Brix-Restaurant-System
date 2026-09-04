@@ -1,15 +1,14 @@
+import Heading from "../../../ui/Heading.jsx";
 import CategoriesTable from "./CategoriesTable.jsx";
 import CategoryDrawer from "./CategoryDrawer";
 
 function CategoriesLayout() {
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between gap-4">
-        <h1 className="text-2xl">Categories</h1>
-        <CategoryDrawer />
-      </div>
+      <Heading as="h1">Categories</Heading>
 
-      <div>
+      <div className="flex flex-col gap-4">
+        <CategoryDrawer />
         <CategoriesTable />
       </div>
     </div>

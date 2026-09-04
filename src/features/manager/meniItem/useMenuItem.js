@@ -3,7 +3,7 @@ import {getMenuItem} from "../../../services/apiMenuItem";
 
 function useMenuItem(id) {
   const {
-    data: menuItem,
+    data: menuItem = {},
     isPending: isMenuItemLoading,
     isError,
   } = useQuery({
@@ -12,7 +12,10 @@ function useMenuItem(id) {
     retry: false,
   });
 
-  return {menuItem, isMenuItemLoading, isError};
+  const variants = menuItem?.product_variants || [];
+  const modifierGroups = menuItem?.product_modifier_groups || [];
+
+  return {menuItem, variants, modifierGroups, isMenuItemLoading, isError};
 }
 
 export default useMenuItem;

@@ -15,7 +15,7 @@ function useDeleteMenuItem() {
       queryClient.invalidateQueries({queryKey: ["menu"]});
     },
     onError: (error) => {
-      toast.danger(error?.message || "Failed to delete menu item");
+      toast.warning(error?.message || "Failed to delete menu item");
     },
   });
 

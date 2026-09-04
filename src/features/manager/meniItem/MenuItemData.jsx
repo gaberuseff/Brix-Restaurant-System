@@ -7,25 +7,14 @@ import {
   Form,
   Input,
   Label,
-  ListBox,
-  Select,
   Separator,
-  Spinner,
   TextArea,
   TextField,
 } from "@heroui/react";
-import {MenuItemStatus} from "../../../utils/constants";
 import useUpdateMenuItem from "./useUpdateMenuItem";
 
 function MenuItemData({item}) {
-  const {
-    name_en,
-    name_ar,
-    description_en,
-    description_ar,
-    is_available,
-    status,
-  } = item;
+  const {name_en, name_ar, description_en, description_ar, is_available} = item;
 
   const {mutateUpdateMenuItem, isUpdateMenuItemPending} = useUpdateMenuItem();
 
@@ -37,6 +26,7 @@ function MenuItemData({item}) {
     updates.is_available =
       formData.has("is_available") && formData.get("is_available") !== "false";
 
+    console.log(updates);
     mutateUpdateMenuItem({menuItemId: item.id, updates});
   }
 

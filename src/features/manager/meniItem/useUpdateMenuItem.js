@@ -5,19 +5,20 @@ import {toast} from "@heroui/react";
 function useUpdateMenuItem() {
   const queryClient = useQueryClient();
   const {
-    mutateAsync: mutateUpdateMenuItem,
+    mutate: mutateUpdateMenuItem,
     isPending: isUpdateMenuItemPending,
   } = useMutation({
     mutationFn: ({menuItemId, updates}) =>
       updateMenuItemAPI(menuItemId, updates),
 
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries({queryKey: ["menu"]});
+      queryClient.invalidateQueries({queryKey: ["menuItem"]});
       toast.success("Menu item updated successfully");
     },
 
     onError: (err) => {
-      toast.danger(err?.message || "Failed to update menu item");
+      toast.warning(err?.message || "Failed to update menu item");
     },
   });
 

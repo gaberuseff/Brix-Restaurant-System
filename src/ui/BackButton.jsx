@@ -9,7 +9,7 @@ function BackButton() {
   return (
     <Button
       onClick={() => navigate(-1)}
-      variant="ghost"
+      variant="secondary"
       className="flex items-center">
       <HugeiconsIcon icon={ChevronLeft} size={16} />
       Back

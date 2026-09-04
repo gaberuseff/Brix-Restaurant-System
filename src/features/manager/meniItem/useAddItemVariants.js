@@ -8,7 +8,7 @@ function useAddItemVariants() {
   const {mutate: createMenuItemVariant, isPending: isCreating} = useMutation({
     mutationFn: createMenuItemVariantAPI,
 
-    onSuccess: (newItemVariant) => {
+    onSuccess: () => {
       toast.success("Variant added successfully");
       queryClient.invalidateQueries({
         queryKey: ["product-variants"],

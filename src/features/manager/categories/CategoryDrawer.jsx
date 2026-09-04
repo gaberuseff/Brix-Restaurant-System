@@ -122,7 +122,9 @@ function CategoryDrawer({
           </Button>
         ) : (
           <Button
-            variant="secondary"
+            variant="primary"
+            size="lg"
+            className='self-end'
             isDisabled={isWorking}
             onClick={() => setInternalIsOpen(true)}>
             <HugeiconsIcon icon={PlusIcon} size={16} />

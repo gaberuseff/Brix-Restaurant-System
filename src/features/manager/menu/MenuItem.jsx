@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {Button, Card, Chip, Separator} from "@heroui/react";
 import {
   ArrowRight,
@@ -8,12 +9,26 @@ import {HugeiconsIcon} from "@hugeicons/react";
 import {useNavigate} from "react-router-dom";
 import {formatCurrency} from "../../../utils/helpers";
 import {PATHS} from "../../../routes/paths";
+import useDeleteMenuItem from "./useDeleteMenuItem";
+import ConfirmDeleteModel from "../../../ui/ConfirmDeleteModel";
 
 function MenuItem({item}) {
   const navigate = useNavigate();
-  const {id, name_en, price, image_url, is_available, categories} = item;
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const {deleteMenuItem, isDeleting} = useDeleteMenuItem();
+
+  const {id, name_en, description_en, image_url, is_available, categories} =
+    item;
 
   const categoryName = categories?.name_en;
+
+  function handleDelete(itemId) {
+    deleteMenuItem(itemId, {
+      onSuccess: () => {
+        setIsDeleteOpen(false);
+      },
+    });
+  }
 
   return (
     <>
@@ -56,21 +71,17 @@ function MenuItem({item}) {
                 {is_available ? "Available" : "Not Available"}
               </Chip>
             </div>
+
+            <p className="text-sm line-clamp-2">{description_en}</p>
           </div>
 
           <Separator orientation="horizontal" className="my-2" />
 
-          <div className="flex items-center justify-between mt-auto">
-            <span className="font-semibold text-default-500 tracking-wider">
-              Price
-            </span>
-            <span className="text-lg font-bold text-primary tracking-tight">
-              {formatCurrency(price)}
-            </span>
-          </div>
-
           <div className="flex gap-2 pt-2">
-            <Button isIconOnly color="danger">
+            <Button
+              isIconOnly
+              color="danger"
+              onClick={() => setIsDeleteOpen(true)}>
               <HugeiconsIcon icon={Delete01Icon} />
             </Button>
             <Button
@@ -84,6 +95,15 @@ function MenuItem({item}) {
           </div>
         </div>
       </Card>
+
+      <ConfirmDeleteModel
+        open={isDeleteOpen}
+        setOpen={setIsDeleteOpen}
+        handleDelete={handleDelete}
+        isPending={isDeleting}
+        id={id}
+        name={name_en}
+      />
     </>
   );
 }

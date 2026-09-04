@@ -7,29 +7,22 @@ import {
 } from "@hugeicons/core-free-icons";
 import {HugeiconsIcon} from "@hugeicons/react";
 import {useState} from "react";
-import {useParams} from "react-router-dom";
 import ConfirmDeleteModel from "../../../ui/ConfirmDeleteModel";
 import EmptyTable from "../../../ui/EmptyTable";
-import ErrorState from "../../../ui/ErrorState";
-import TableSkeleton from "../../../ui/TableSkeleton";
 import MenuItemVariantModel from "./MenuItemVariantModel";
 import useDeleteItemVariant from "./useDeleteItemVariant";
-import useItemVariants from "./useItemVariants";
 
 const tableCols = [
   {key: "name_en", label: "Name (English)", isRowHeader: true},
   {key: "name_ar", label: "Name (Arabic)", isRowHeader: false},
   {key: "price", label: "Price", isRowHeader: false},
-  {key: "is_available", label: "Available", isRowHeader: false},
   {key: "sort_order", label: "Sort Order", isRowHeader: false},
   {key: "actions", label: "Actions", isRowHeader: false},
 ];
 
-function MenuItemVariants() {
-  const {id} = useParams();
+function MenuItemVariants({variants}) {
   const [variantToDelete, setVariantToDelete] = useState(null);
   const [variantToEdit, setVariantToEdit] = useState(null);
-  const {variants, isVariantsLoading, isVariantsError} = useItemVariants(id);
   const {deleteMenuItemVariant, isDeleting} = useDeleteItemVariant();
 
   const handleDelete = () => {
@@ -40,19 +33,6 @@ function MenuItemVariants() {
       },
     });
   };
-
-  if (isVariantsLoading) return <TableSkeleton cols={tableCols} rowsCount={4} />;
-
-  if (isVariantsError || !variants) {
-    return (
-      <div className="space-y-6">
-        <ErrorState
-          title="Variants Not Found"
-          message="The requested variants do not exist or the ID is invalid."
-        />
-      </div>
-    );
-  }
 
   if (variants.length === 0)
     return (
@@ -83,7 +63,6 @@ function MenuItemVariants() {
                   <Table.Cell>{variant.name_en}</Table.Cell>
                   <Table.Cell>{variant.name_ar}</Table.Cell>
                   <Table.Cell>{variant.price}</Table.Cell>
-                  <Table.Cell>{variant.is_available ? "Yes" : "No"}</Table.Cell>
                   <Table.Cell>{variant.sort_order}</Table.Cell>
                   <Table.Cell>
                     <Dropdown>

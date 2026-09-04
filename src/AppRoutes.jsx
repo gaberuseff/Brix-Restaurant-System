@@ -1,9 +1,10 @@
 import {lazy, Suspense} from "react";
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import BranchesList from "./features/manager/branches/BranchesList";
+import Modifires from "./pages/Modifires";
 import {PATHS} from "./routes/paths";
 import PageLoader from "./ui/PageLoader";
 import ProtectedRoutes from "./ui/ProtectedRoutes";
-import BranchesList from "./features/manager/branches/BranchesList";
 
 // Lazy-loaded Layouts
 const ManagerLayout = lazy(() => import("./layouts/ManagerLayout"));
@@ -37,6 +38,7 @@ function AppRoutes() {
               <Route index element={<h1>Manager Dashboard</h1>} />
               <Route path={PATHS.MANAGER.MENU} element={<Menu />} />
               <Route path={PATHS.MANAGER.MENU_ITEM} element={<MenuItem />} />
+              <Route path={PATHS.MANAGER.MODIFIERS} element={<Modifires />} />
               <Route path={PATHS.MANAGER.CATEGORIES} element={<Categories />} />
               <Route path={PATHS.MANAGER.BRANCHES} element={<Branches />} />
               <Route path={PATHS.MANAGER.STAFF} element={<h1>Staff</h1>} />
@@ -45,6 +47,7 @@ function AppRoutes() {
                 path={PATHS.MANAGER.SETTINGS}
                 element={<h1>Settings</h1>}
               />
+              <Route path={PATHS.MANAGER.TRASH} element={<h1>Trash</h1>} />
             </Route>
           </Route>
 

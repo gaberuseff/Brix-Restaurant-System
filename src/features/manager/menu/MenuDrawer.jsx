@@ -21,7 +21,6 @@ import {Controller, useForm} from "react-hook-form";
 import useCategories from "../categories/useCategories";
 import useCreateMenuItem from "./useCreateMenuItem";
 import useUpdateMenuItem from "./useUpdateMenuItem";
-import useCategoriesShortData from "../categories/useCategoriesShortData";
 
 const defaultValues = {
   name_en: "",
@@ -43,7 +42,7 @@ function MenuDrawer({itemToEdit = {}}) {
     itemToEdit?.image_url || null,
   );
   const fileInputRef = useRef(null);
-  const {categoriesShort} = useCategoriesShortData();
+  const {categories} = useCategories();
   const {createMenuItem, isCreating} = useCreateMenuItem();
   const {updateMenuItem, isUpdating} = useUpdateMenuItem();
 
@@ -228,7 +227,7 @@ function MenuDrawer({itemToEdit = {}}) {
                         </Select.Trigger>
                         <Select.Popover>
                           <ListBox>
-                            {categoriesShort?.map((category) => (
+                            {categories?.map((category) => (
                               <ListBox.Item
                                 key={category.id}
                                 id={String(category.id)}
