@@ -12,7 +12,7 @@ import EmptyTable from "../../../ui/EmptyTable";
 import Pagination from "../../../ui/Pagination";
 import TableSkeleton from "../../../ui/TableSkeleton";
 import ModifireModel from "./ModifireModel";
-import useDeleteModifireGroup from "./useDeleteModifierGroup";
+import useDeleteModifier from "./useDeleteModifier";
 import useModifires from "./useModifires";
 
 const columns = [
@@ -28,7 +28,7 @@ function ModifiresTable() {
   const [modifierToEdit, setModifierToEdit] = useState(null);
 
   const {modifiers = [], count, isModifiersPending} = useModifires();
-  const {deleteGroup, isDeleting} = useDeleteModifireGroup();
+  const {deleteModifier, isDeleting} = useDeleteModifier();
 
   if (isModifiersPending) return <TableSkeleton cols={columns} rowsCount={4} />;
 
@@ -43,7 +43,7 @@ function ModifiresTable() {
 
   const handleDelete = () => {
     if (!modifierToDelete) return;
-    deleteGroup(modifierToDelete.id, {
+    deleteModifier(modifierToDelete.id, {
       onSuccess: () => {
         setModifierToDelete(null);
       },

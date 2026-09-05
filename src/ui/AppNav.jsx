@@ -8,7 +8,6 @@ import {
   Package01Icon,
   Settings02Icon,
   Store02Icon,
-  UserGroupIcon,
   WaitersIcon,
 } from "@hugeicons/core-free-icons";
 import ShoppingBag01Icon from "@hugeicons/core-free-icons/ShoppingBag01Icon";
@@ -64,12 +63,6 @@ const navLinks = [
     path: PATHS.MANAGER.STAFF,
     label: "Staff",
     icon: WaitersIcon,
-    roles: ["manager"],
-  },
-  {
-    path: PATHS.MANAGER.USERS,
-    label: "Users",
-    icon: UserGroupIcon,
     roles: ["manager"],
   },
   {

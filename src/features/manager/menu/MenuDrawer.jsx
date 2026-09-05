@@ -9,56 +9,29 @@ import {
   TextArea,
   TextField,
 } from "@heroui/react";
-import {
-  Delete02Icon,
-  Edit02Icon,
-  Image01Icon,
-  PlusIcon,
-} from "@hugeicons/core-free-icons";
+import {Delete02Icon, Image01Icon, PlusIcon} from "@hugeicons/core-free-icons";
 import {HugeiconsIcon} from "@hugeicons/react";
 import {useEffect, useRef, useState} from "react";
 import {Controller, useForm} from "react-hook-form";
 import useCategories from "../categories/useCategories";
 import useCreateMenuItem from "./useCreateMenuItem";
-import useUpdateMenuItem from "./useUpdateMenuItem";
 
 const defaultValues = {
   name_en: "",
   name_ar: "",
   category_id: "",
-  price: "",
   description_en: "",
   description_ar: "",
   image: null,
-  is_available: "available",
+  is_available: "unavailable",
 };
 
-function MenuDrawer({itemToEdit = {}}) {
-  const isEditSession = Boolean(itemToEdit?.id);
-  const editId = itemToEdit?.id;
-
+function MenuDrawer() {
   const [isOpen, setIsOpen] = useState(false);
-  const [imagePreview, setImagePreview] = useState(
-    itemToEdit?.image_url || null,
-  );
+  const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
   const {categories} = useCategories();
   const {createMenuItem, isCreating} = useCreateMenuItem();
-  const {updateMenuItem, isUpdating} = useUpdateMenuItem();
-
-  const isWorking = isCreating || isUpdating;
-
-  const editValues = {
-    name_en: itemToEdit?.name_en || "",
-    name_ar: itemToEdit?.name_ar || "",
-    category_id: itemToEdit?.category_id ? String(itemToEdit.category_id) : "",
-    price: itemToEdit?.price !== undefined ? String(itemToEdit.price) : "",
-    description_en: itemToEdit?.description_en || "",
-    description_ar: itemToEdit?.description_ar || "",
-    image: null,
-    is_available:
-      itemToEdit?.is_available !== false ? "available" : "unavailable",
-  };
 
   const {
     control,
@@ -66,21 +39,21 @@ function MenuDrawer({itemToEdit = {}}) {
     reset,
     formState: {errors},
   } = useForm({
-    defaultValues: isEditSession ? editValues : defaultValues,
+    defaultValues,
   });
 
   useEffect(() => {
     if (isOpen) {
-      reset(isEditSession ? editValues : defaultValues);
-      setImagePreview(itemToEdit?.image_url || null);
+      reset(defaultValues);
+      setImagePreview(null);
     }
-  }, [isOpen, isEditSession]);
+  }, [isOpen]);
 
   const handleOpenChange = (open) => {
     setIsOpen(open);
     if (!open) {
-      reset(isEditSession ? editValues : defaultValues);
-      setImagePreview(itemToEdit?.image_url || null);
+      reset(defaultValues);
+      setImagePreview(null);
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
@@ -92,59 +65,33 @@ function MenuDrawer({itemToEdit = {}}) {
       name_en: data.name_en.trim(),
       name_ar: data.name_ar.trim(),
       category_id: Number(data.category_id),
-      price: parseFloat(data.price),
       description_en: data.description_en?.trim() || "",
       description_ar: data.description_ar?.trim() || "",
       image: data.image,
-      image_url: isEditSession ? itemToEdit?.image_url : undefined,
-      is_available: data.is_available === "available",
+      is_available: false,
     };
 
-    if (isEditSession) {
-      updateMenuItem(
-        {id: editId, ...payload},
-        {
-          onSuccess: () => {
-            handleOpenChange(false);
-          },
-        },
-      );
-    } else {
-      createMenuItem(payload, {
-        onSuccess: () => {
-          handleOpenChange(false);
-        },
-      });
-    }
+    createMenuItem(payload, {
+      onSuccess: () => {
+        handleOpenChange(false);
+      },
+    });
   };
 
-  const formId = `menu-item-form-${isEditSession ? editId : "new"}`;
+  const formId = "add-menu-item-form";
 
   return (
     <Drawer isOpen={isOpen} onOpenChange={handleOpenChange}>
-      {isEditSession ? (
-        <Button
-          variant="secondary"
-          className="w-full"
-          isDisabled={isWorking}
-          onClick={() => setIsOpen(true)}>
-          <HugeiconsIcon icon={Edit02Icon} size={16} />
-          Edit
-        </Button>
-      ) : (
-        <Button variant="primary" size="lg" onClick={() => setIsOpen(true)}>
-          <HugeiconsIcon icon={PlusIcon} size={16} />
-          Add Menu Item
-        </Button>
-      )}
+      <Button variant="primary" size="lg" onClick={() => setIsOpen(true)}>
+        <HugeiconsIcon icon={PlusIcon} size={16} />
+        Add Menu Item
+      </Button>
 
       <Drawer.Backdrop variant="blur">
         <Drawer.Content placement="right">
           <Drawer.Dialog className="w-full max-w-lg">
             <Drawer.Header>
-              <Drawer.Heading>
-                {isEditSession ? "Edit Menu Item" : "Add Menu Item"}
-              </Drawer.Heading>
+              <Drawer.Heading>Add Menu Item</Drawer.Heading>
             </Drawer.Header>
 
             <Drawer.Body className="overflow-y-auto">
@@ -246,41 +193,7 @@ function MenuDrawer({itemToEdit = {}}) {
                   )}
                 />
 
-                {/* 3. Price */}
-                <Controller
-                  name="price"
-                  control={control}
-                  rules={{
-                    required: "Price is required",
-                    min: {
-                      value: 0.01,
-                      message: "Price must be greater than 0",
-                    },
-                  }}
-                  render={({field, fieldState: {error}}) => (
-                    <TextField
-                      className="w-full space-y-2"
-                      name="price"
-                      isRequired
-                      isInvalid={Boolean(error)}>
-                      <Label>Price</Label>
-                      <Input
-                        type="number"
-                        step="0.01"
-                        placeholder="0.00"
-                        variant="secondary"
-                        autoComplete="off"
-                        value={field.value}
-                        onChange={field.onChange}
-                      />
-                      {error && (
-                        <p className="text-xs text-danger">{error.message}</p>
-                      )}
-                    </TextField>
-                  )}
-                />
-
-                {/* 4. Descriptions (EN & AR) */}
+                {/* 3. Descriptions (EN & AR) */}
                 <Controller
                   name="description_en"
                   control={control}
@@ -332,23 +245,17 @@ function MenuDrawer({itemToEdit = {}}) {
                   )}
                 />
 
-                {/* 5. Image Upload */}
+                {/* 4. Image Upload */}
                 <Controller
                   name="image"
                   control={control}
                   rules={{
-                    required:
-                      isEditSession && imagePreview
-                        ? false
-                        : "Image is required",
+                    required: "Image is required",
                   }}
                   render={({field, fieldState: {error}}) => (
                     <div className="space-y-2">
                       <Label className="flex items-center gap-1">
-                        Image{" "}
-                        {(!isEditSession || !imagePreview) && (
-                          <span className="text-danger">*</span>
-                        )}
+                        Image <span className="text-danger">*</span>
                       </Label>
                       <input
                         ref={fileInputRef}
@@ -431,18 +338,16 @@ function MenuDrawer({itemToEdit = {}}) {
                   )}
                 />
 
-                {/* 6. Availability */}
+                {/* 5. Availability */}
                 <Controller
                   name="is_available"
                   control={control}
-                  rules={{required: "Availability is required"}}
-                  render={({field, fieldState: {error}}) => (
+                  render={({field}) => (
                     <div className="space-y-2">
                       <Select
                         variant="secondary"
                         className="w-full"
-                        isRequired
-                        isInvalid={Boolean(error)}
+                        isDisabled={true}
                         selectedKey={field.value}
                         onSelectionChange={(key) => field.onChange(key)}>
                         <Label>Availability</Label>
@@ -463,9 +368,10 @@ function MenuDrawer({itemToEdit = {}}) {
                           </ListBox>
                         </Select.Popover>
                       </Select>
-                      {error && (
-                        <p className="text-xs text-danger">{error.message}</p>
-                      )}
+                      <p className="text-xs text-default-500">
+                        New items are set to Unavailable by default until
+                        sizes/variants are added from the item details page.
+                      </p>
                     </div>
                   )}
                 />
@@ -477,7 +383,7 @@ function MenuDrawer({itemToEdit = {}}) {
                 type="button"
                 variant="secondary"
                 className="w-full"
-                isDisabled={isWorking}
+                isDisabled={isCreating}
                 onClick={() => handleOpenChange(false)}>
                 Cancel
               </Button>
@@ -485,10 +391,10 @@ function MenuDrawer({itemToEdit = {}}) {
                 form={formId}
                 type="submit"
                 className="w-full"
-                isDisabled={isWorking}
-                isLoading={isWorking}>
-                {isEditSession ? "Update Item" : "Add Item"}
-                {isWorking && <Spinner />}
+                isDisabled={isCreating}
+                isLoading={isCreating}>
+                Add Item
+                {isCreating && <Spinner />}
               </Button>
             </Drawer.Footer>
           </Drawer.Dialog>

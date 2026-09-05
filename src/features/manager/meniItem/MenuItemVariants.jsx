@@ -1,4 +1,4 @@
-import {Dropdown, Table} from "@heroui/react";
+import {Button, Dropdown, Table} from "@heroui/react";
 import {
   Delete,
   Edit02Icon,
@@ -71,7 +71,9 @@ function MenuItemVariants({variants}) {
                         variant="secondary"
                         size="sm"
                         aria-label="Actions">
-                        <HugeiconsIcon icon={MoreVerticalCircle01Icon} />
+                        <Button isIconOnly variant="secondary" size="sm">
+                          <HugeiconsIcon icon={MoreVerticalCircle01Icon} />
+                        </Button>
                       </Dropdown.Trigger>
                       <Dropdown.Popover>
                         <Dropdown.Menu>

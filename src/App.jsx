@@ -20,7 +20,7 @@ function App() {
     <DarkModeProvider>
       <QueryClientProvider client={queryClient}>
         <AppRoutes />
-        <Toast.Provider placement="top"/>
+        <Toast.Provider placement="top" />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </DarkModeProvider>

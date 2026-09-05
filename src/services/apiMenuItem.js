@@ -1,4 +1,5 @@
 import supabase from "./supabase";
+import {uploadMenuImage, deleteMenuImage} from "./apiStorage";
 
 export async function getMenuItem(id) {
   const {data, error} = await supabase
@@ -30,10 +31,35 @@ export async function getMenuItem(id) {
   return data;
 }
 
-export async function updateMenuItem(menuItemId, updates) {
+export async function updateMenuItem(menuItemIdOrObject, updatesData) {
+  let menuItemId;
+  let updates;
+
+  if (typeof menuItemIdOrObject === "object" && menuItemIdOrObject !== null) {
+    const {id, ...rest} = menuItemIdOrObject;
+    menuItemId = id;
+    updates = updatesData ? {...rest, ...updatesData} : rest;
+  } else {
+    menuItemId = menuItemIdOrObject;
+    updates = updatesData || {};
+  }
+
+  let finalUpdates = {...updates};
+
+  if (updates.image instanceof File) {
+    const oldUrl = updates.old_image_url || updates.image_url;
+    if (oldUrl) {
+      await deleteMenuImage(oldUrl);
+    }
+    const newImageUrl = await uploadMenuImage(updates.image);
+    finalUpdates.image_url = newImageUrl;
+    delete finalUpdates.image;
+    delete finalUpdates.old_image_url;
+  }
+
   const {data, error} = await supabase
     .from("menu")
-    .update(updates)
+    .update(finalUpdates)
     .eq("id", menuItemId)
     .select()
     .single();

@@ -1,30 +1,6 @@
 import {PAGE_SIZE} from "../utils/constants";
-import {compressImage} from "../utils/helpers";
+import {uploadMenuImage} from "./apiStorage";
 import supabase from "./supabase";
-
-export async function uploadMenuImage(file) {
-  if (!file) return null;
-
-  const compressedFile = await compressImage(file);
-  const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.webp`;
-  const filePath = `${fileName}`;
-
-  const {error: uploadError} = await supabase.storage
-    .from("menu-images")
-    .upload(filePath, compressedFile, {
-      contentType: "image/webp",
-      upsert: true,
-    });
-
-  if (uploadError) {
-    console.error("Error uploading menu image:", uploadError);
-    throw new Error(uploadError.message || "Failed to upload image");
-  }
-
-  const {data} = supabase.storage.from("menu-images").getPublicUrl(filePath);
-
-  return data.publicUrl;
-}
 
 export async function getMenuItems(categoryFilter, availabilityFilter, page) {
   let query = supabase
@@ -85,34 +61,6 @@ export async function createMenuItem(newItem) {
 
   if (error) {
     console.error("Error creating menu item:", error);
-    throw error;
-  }
-
-  return data;
-}
-
-export async function updateMenuItem({id, ...updatedItem}) {
-  let imageUrl = updatedItem.image_url;
-
-  if (updatedItem.image instanceof File) {
-    imageUrl = await uploadMenuImage(updatedItem.image);
-  }
-
-  const {image, ...itemData} = updatedItem;
-
-  const payload = {
-    ...itemData,
-    ...(imageUrl !== undefined ? {image_url: imageUrl} : {}),
-  };
-
-  const {data, error} = await supabase
-    .from("menu")
-    .update(payload)
-    .eq("id", id)
-    .select();
-
-  if (error) {
-    console.error("Error updating menu item:", error);
     throw error;
   }
 

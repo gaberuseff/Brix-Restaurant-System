@@ -41,7 +41,7 @@ function MenuItemLayout() {
     <div className="space-y-6">
       <BackButton />
 
-      <MenuItemImage imageUrl={menuItem?.image_url} />
+      <MenuItemImage item={menuItem} imageUrl={menuItem?.image_url} />
       <MenuItemData item={menuItem} />
       <Separator className="my-6" />
 

@@ -1,6 +1,6 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {toast} from "@heroui/react";
-import {updateMenuItem as updateMenuItemApi} from "../../../services/apiMenu";
+import {updateMenuItem as updateMenuItemApi} from "../../../services/apiMenuItem";
 
 function useUpdateMenuItem() {
   const queryClient = useQueryClient();

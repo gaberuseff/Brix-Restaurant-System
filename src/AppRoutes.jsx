@@ -42,7 +42,6 @@ function AppRoutes() {
               <Route path={PATHS.MANAGER.CATEGORIES} element={<Categories />} />
               <Route path={PATHS.MANAGER.BRANCHES} element={<Branches />} />
               <Route path={PATHS.MANAGER.STAFF} element={<h1>Staff</h1>} />
-              <Route path={PATHS.MANAGER.USERS} element={<h1>Users</h1>} />
               <Route
                 path={PATHS.MANAGER.SETTINGS}
                 element={<h1>Settings</h1>}

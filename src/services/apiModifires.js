@@ -51,6 +51,20 @@ export async function getModifiers(page) {
 export async function deleteModifierGroup(id) {
   const {error} = await supabase.from("modifier_groups").delete().eq("id", id);
 
+  if (error?.code === "23503") {
+    throw new Error(
+      "This modifier group has modifiers or is linked to a product, cannot delete it, please move modifiers to another group or delete them first",
+    );
+  }
+
+  if (error) throw new Error(error.message);
+
+  return true;
+}
+
+export async function deleteModifier(id) {
+  const {error} = await supabase.from("modifiers").delete().eq("id", id);
+
   if (error) throw new Error(error.message);
 
   return true;
@@ -81,4 +95,3 @@ export async function updateModifier({id, ...updates}) {
 
   return data;
 }
-
