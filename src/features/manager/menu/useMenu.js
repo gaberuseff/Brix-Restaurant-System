@@ -11,13 +11,22 @@ function useMenu() {
   const {
     data: {data: menu, count} = {},
     isPending: isMenuLoading,
+    isFetching: isMenuFetching,
     isError: isMenuError,
+    refetch: refetchMenu,
   } = useQuery({
     queryKey: ["menu", categoryFilter, availabilityFilter, page],
     queryFn: () => getMenuItems(categoryFilter, availabilityFilter, page),
   });
 
-  return {menu, count, isMenuLoading, isMenuError};
+  return {
+    menu,
+    count,
+    isMenuLoading,
+    isMenuFetching,
+    isMenuError,
+    refetchMenu,
+  };
 }
 
 export default useMenu;

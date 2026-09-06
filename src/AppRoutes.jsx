@@ -17,6 +17,7 @@ const Menu = lazy(() => import("./pages/Menu"));
 const MenuItem = lazy(() => import("./pages/MenuItem"));
 const Categories = lazy(() => import("./pages/Categories"));
 const Branches = lazy(() => import("./pages/Branches"));
+const Settings = lazy(() => import("./pages/Settings"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 function AppRoutes() {
@@ -42,10 +43,7 @@ function AppRoutes() {
               <Route path={PATHS.MANAGER.CATEGORIES} element={<Categories />} />
               <Route path={PATHS.MANAGER.BRANCHES} element={<Branches />} />
               <Route path={PATHS.MANAGER.STAFF} element={<h1>Staff</h1>} />
-              <Route
-                path={PATHS.MANAGER.SETTINGS}
-                element={<h1>Settings</h1>}
-              />
+              <Route path={PATHS.MANAGER.SETTINGS} element={<Settings />} />
               <Route path={PATHS.MANAGER.TRASH} element={<h1>Trash</h1>} />
             </Route>
           </Route>
