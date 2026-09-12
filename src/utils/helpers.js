@@ -31,6 +31,14 @@ export const formatCurrency = (amount) => {
   }).format(amount);
 };
 
+export const calculateChangeDue = (amountReceived, totalAmount) => {
+  const received = parseFloat(amountReceived);
+  if (isNaN(received) || received < totalAmount) {
+    return "0.00";
+  }
+  return (received - totalAmount).toFixed(2);
+};
+
 export async function compressImage(file) {
   if (!file) return null;
 

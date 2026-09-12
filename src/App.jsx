@@ -7,10 +7,15 @@ import {DarkModeProvider} from "./context/DarkModeContext";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
+      networkMode: "always",
       staleTime: 5 * 60 * 1000,
       gcTime: 30 * 60 * 1000,
       refetchOnWindowFocus: false,
       retry: 1,
+      refetchOnReconnect: true,
+    },
+    mutations: {
+      networkMode: "always",
     },
   },
 });

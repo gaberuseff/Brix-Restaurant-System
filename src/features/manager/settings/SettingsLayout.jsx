@@ -7,7 +7,7 @@ function SettingsLayout() {
     <div className="space-y-8">
       <PricingDeliveryForm />
       <Separator />
-      <MaintenanceForm />
+      {/* <MaintenanceForm /> */}
     </div>
   );
 }

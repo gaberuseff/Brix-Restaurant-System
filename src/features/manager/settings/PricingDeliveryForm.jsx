@@ -17,8 +17,7 @@ function PricingDeliveryForm() {
 
   const editValues = {
     delivery_fee: settings?.delivery_fee ?? "",
-    average_delivery_time: settings?.average_delivery_time,
-    tax: settings?.tax ?? "",
+    dine_in_tax: settings?.dine_in_tax ?? "",
   };
 
   const {control, handleSubmit, reset} = useForm({
@@ -29,8 +28,7 @@ function PricingDeliveryForm() {
     const payload = {
       ...(settings?.id ? {id: settings.id} : {}),
       delivery_fee: Number(data.delivery_fee),
-      average_delivery_time: Number(data.average_delivery_time),
-      tax: Number(data.tax),
+      dine_in_tax: Number(data.dine_in_tax),
     };
 
     updateSettings(payload);
@@ -88,34 +86,7 @@ function PricingDeliveryForm() {
           />
 
           <Controller
-            name="average_delivery_time"
-            control={control}
-            rules={{
-              required: "Average delivery time is required",
-              min: {value: 1, message: "Must be at least 1 minute"},
-            }}
-            render={({field, fieldState: {error}}) => (
-              <TextField
-                className="w-full space-y-1"
-                isRequired
-                isInvalid={Boolean(error)}>
-                <Label>Average Delivery Time (Mins)</Label>
-                <Input
-                  type="number"
-                  placeholder="e.g. 30"
-                  variant="secondary"
-                  value={field.value ?? ""}
-                  onChange={field.onChange}
-                />
-                {error && (
-                  <p className="text-xs text-danger">{error.message}</p>
-                )}
-              </TextField>
-            )}
-          />
-
-          <Controller
-            name="tax"
+            name="dine_in_tax"
             control={control}
             rules={{
               required: "Tax percentage is required",

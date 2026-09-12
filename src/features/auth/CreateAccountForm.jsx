@@ -11,6 +11,7 @@ import {
 import {Controller, useForm} from "react-hook-form";
 import {validatePassword} from "../../utils/helpers";
 import useCreateAccount from "./useCreateAccount";
+import useBranches from "../manager/branches/useBranches";
 
 const defaultValues = {
   name: "",
@@ -19,6 +20,7 @@ const defaultValues = {
   password: "",
   confirmPassword: "",
   role: "manager",
+  branch_id: "",
 };
 
 function CreateAccountForm() {
@@ -27,12 +29,16 @@ function CreateAccountForm() {
     control,
     reset,
     getValues,
+    watch,
     formState: {isSubmitting},
   } = useForm({
     defaultValues,
   });
 
   const {createAccount, isCreating} = useCreateAccount();
+  const {branches, isLoading: isLoadingBranches} = useBranches();
+
+  const selectedRole = watch("role");
 
   const onSubmit = async (data) => {
     const requestBody = {
@@ -41,6 +47,7 @@ function CreateAccountForm() {
       phone: data.phone,
       password: data.password,
       role: data.role,
+      ...(data.role === "employee" && {branch_id: data.branch_id}),
     };
     createAccount(requestBody, {
       onSuccess: () => {
@@ -186,6 +193,47 @@ function CreateAccountForm() {
               </Select>
             )}
           />
+
+          {selectedRole === "employee" && (
+            <Controller
+              name="branch_id"
+              control={control}
+              rules={{
+                required:
+                  selectedRole === "employee" ? "Branch is required" : false,
+              }}
+              render={({field, fieldState: {error}}) => (
+                <Select
+                  variant="secondary"
+                  className="w-full space-y-1"
+                  selectedKey={field.value}
+                  onSelectionChange={(key) => field.onChange(key)}
+                  isDisabled={isLoadingBranches}>
+                  <Label>Branch</Label>
+                  <Select.Trigger className="w-full">
+                    <Select.Value placeholder="Select Branch" />
+                    <Select.Indicator />
+                  </Select.Trigger>
+                  <Select.Popover>
+                    <ListBox>
+                      {branches?.map((branch) => (
+                        <ListBox.Item
+                          key={branch.id}
+                          id={branch.id}
+                          textValue={branch.name}>
+                          {branch.name}
+                          <ListBox.ItemIndicator />
+                        </ListBox.Item>
+                      ))}
+                    </ListBox>
+                  </Select.Popover>
+                  {error && (
+                    <p className="text-xs text-danger">{error.message}</p>
+                  )}
+                </Select>
+              )}
+            />
+          )}
 
           <Controller
             name="password"

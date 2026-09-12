@@ -40,7 +40,7 @@
   --field-foreground: oklch(21.03% 0.0015 46.01);
   --field-placeholder: oklch(55.17% 0.003 46.01);
   --focus: oklch(62.04% 0.195 46.01);
-  --foreground: oklch(21.03% 0.0015 46.01);
+  --foreground: oklch(21.017% 0.00157 16.444 / 0.758);
   --muted: oklch(55.17% 0.003 46.01);
   --overlay: oklch(100% 0.0004 46.01);
   --overlay-foreground: oklch(21.03% 0.0015 46.01);
@@ -105,4 +105,13 @@
   body {
     font-family: var(--font-open-sans);
   }
+}
+
+/* Utility to hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

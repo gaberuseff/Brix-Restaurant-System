@@ -1,6 +1,6 @@
 import {Tooltip} from "@heroui/react";
 import {
-  Analytics02Icon,
+  CashierIcon,
   Delete01Icon,
   HeartPlusIcon,
   Home01Icon,
@@ -26,7 +26,7 @@ const navLinks = [
   {
     path: PATHS.EMPLOYEE.POS,
     label: "POS Terminal",
-    icon: Analytics02Icon,
+    icon: CashierIcon,
     roles: ["employee"],
   },
   {
@@ -71,15 +71,9 @@ const navLinks = [
     icon: Settings02Icon,
     roles: ["manager"],
   },
-  {
-    path: PATHS.MANAGER.TRASH,
-    label: "Deleted Items",
-    icon: Delete01Icon,
-    roles: ["manager"],
-  },
 ];
 
-function AppNav() {
+function ManagerNav() {
   const location = useLocation();
   const {role} = useUser();
 
@@ -123,4 +117,4 @@ function AppNav() {
   );
 }
 
-export default AppNav;
+export default ManagerNav;

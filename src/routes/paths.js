@@ -1,7 +1,6 @@
 export const PATHS = {
   AUTH: {
     LOGIN: "/login",
-    CREATE_ACCOUNT: "/create-account",
   },
   MANAGER: {
     ROOT: "/manager",
@@ -16,7 +15,6 @@ export const PATHS = {
     TRASH: "/manager/trash",
   },
   EMPLOYEE: {
-    ROOT: "/employee",
     POS: "/employee/pos",
     ORDERS: "/employee/orders",
   },

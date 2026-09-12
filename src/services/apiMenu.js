@@ -3,10 +3,8 @@ import {uploadMenuImage} from "./apiStorage";
 import supabase from "./supabase";
 
 export async function getMenuItems(categoryFilter, availabilityFilter, page) {
-  let query = supabase
-    .from("menu")
-    .select(
-      `
+  let query = supabase.from("menu").select(
+    `
       name_en,
       description_en,
       id,
@@ -14,9 +12,8 @@ export async function getMenuItems(categoryFilter, availabilityFilter, page) {
       is_available,
       categories!inner(name_en, slug)
       `,
-      {count: "exact"},
-    )
-    .eq("status", "active");
+    {count: "exact"},
+  );
 
   if (categoryFilter !== "all") {
     query = query.eq("categories.slug", categoryFilter);
@@ -68,11 +65,7 @@ export async function createMenuItem(newItem) {
 }
 
 export async function deleteMenuItem(id) {
-  const {data, error} = await supabase
-    .from("menu")
-    .update({status: "deleted"})
-    .eq("id", id)
-    .select();
+  const {data, error} = await supabase.from("menu").delete().eq("id", id);
 
   if (error) {
     console.error("Error deleting menu item:", error);

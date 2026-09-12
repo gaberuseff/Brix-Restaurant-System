@@ -1,20 +1,15 @@
 import {Outlet} from "react-router-dom";
-import AppHeader from "../ui/AppHeader";
-import AppNav from "../ui/AppNav";
+import EmployeeHeader from "../ui/EmployeeHeader";
 
 function EmployeeLayout() {
   return (
-    <div className="h-screen flex bg-background">
-      <div className="shrink-0 px-3 py-4 border-r flex flex-col items-center">
-        <AppNav />
-      </div>
-
-      <div className="flex flex-col grow">
-        <div className="px-4 md:px-12 py-4 shrink-0 flex items-center justify-between">
-          <AppHeader />
+    <div className="h-screen flex bg-background overflow-hidden text-sm">
+      <div className="flex flex-col grow min-h-0">
+        <div className="px-4 md:px-12 py-3 shrink-0 flex items-center justify-between">
+          <EmployeeHeader />
         </div>
 
-        <div className="overflow-auto px-4 md:px-12 py-6">
+        <div className="flex-1 min-h-0 px-4 py-4 overflow-hidden flex flex-col">
           <Outlet />
         </div>
       </div>

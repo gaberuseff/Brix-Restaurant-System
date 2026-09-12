@@ -1,16 +1,25 @@
 import supabase, {supabaseAdmin} from "./supabase";
 
 export async function createAccount(userData) {
-  const {name, email, phone, password, role = "manager"} = userData;
+  const {
+    name,
+    full_name,
+    email,
+    phone,
+    password,
+    role = "manager",
+    branch_id,
+  } = userData;
 
   const {data, error} = await supabaseAdmin.auth.admin.createUser({
     email,
     password,
 
     user_metadata: {
-      full_name: name,
+      full_name: full_name || name,
       phone,
       role,
+      ...(role === "employee" && branch_id ? {branch_id} : {}),
     },
   });
 

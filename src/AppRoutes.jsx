@@ -1,6 +1,5 @@
 import {lazy, Suspense} from "react";
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
-import BranchesList from "./features/manager/branches/BranchesList";
 import Modifires from "./pages/Modifires";
 import {PATHS} from "./routes/paths";
 import PageLoader from "./ui/PageLoader";
@@ -17,7 +16,9 @@ const Menu = lazy(() => import("./pages/Menu"));
 const MenuItem = lazy(() => import("./pages/MenuItem"));
 const Categories = lazy(() => import("./pages/Categories"));
 const Branches = lazy(() => import("./pages/Branches"));
+const Staff = lazy(() => import("./pages/Staff"));
 const Settings = lazy(() => import("./pages/Settings"));
+const Pos = lazy(() => import("./pages/Pos"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 function AppRoutes() {
@@ -42,9 +43,8 @@ function AppRoutes() {
               <Route path={PATHS.MANAGER.MODIFIERS} element={<Modifires />} />
               <Route path={PATHS.MANAGER.CATEGORIES} element={<Categories />} />
               <Route path={PATHS.MANAGER.BRANCHES} element={<Branches />} />
-              <Route path={PATHS.MANAGER.STAFF} element={<h1>Staff</h1>} />
+              <Route path={PATHS.MANAGER.STAFF} element={<Staff />} />
               <Route path={PATHS.MANAGER.SETTINGS} element={<Settings />} />
-              <Route path={PATHS.MANAGER.TRASH} element={<h1>Trash</h1>} />
             </Route>
           </Route>
 
@@ -55,13 +55,12 @@ function AppRoutes() {
                 index
                 element={<Navigate to={PATHS.EMPLOYEE.POS} replace />}
               />
-              <Route path="pos" element={<BranchesList />} />
-              <Route path="orders" element={<h1>Employee Orders</h1>} />
+              <Route path={PATHS.EMPLOYEE.POS} element={<Pos />} />
+              <Route path={PATHS.EMPLOYEE.ORDERS} element={<h1>Orders</h1>} />
             </Route>
           </Route>
 
           {/* Public Auth Routes */}
-          <Route path={PATHS.AUTH.CREATE_ACCOUNT} element={<CreateAccount />} />
           <Route path={PATHS.AUTH.LOGIN} element={<Login />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
